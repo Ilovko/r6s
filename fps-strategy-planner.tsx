@@ -1482,13 +1482,13 @@ export default function Component() {
           className="pointer-events-none"
         />
         <foreignObject
-          x={player.position.x - 6}
-          y={player.position.y - 6}
-          width="12"
-          height="12"
+          x={player.position.x - 10}
+          y={player.position.y - 10}
+          width="20"
+          height="20"
           className="pointer-events-none"
         >
-          <IconComponent className="w-3 h-3 text-white" />
+          <IconComponent className="w-5 h-5 text-white" />
         </foreignObject>
         <text
           x={player.position.x}
@@ -2112,11 +2112,11 @@ export default function Component() {
                   const IconComponent = PLAYER_TYPES[op].icon
                   return (
                     <SelectItem key={op} value={op}>
-                      <div className="flex items-center gap-2">
-                        <IconComponent className="h-4 w-4" style={{ color: PLAYER_TYPES[op].color }} />
-                        {PLAYER_TYPES[op].name[language]}
-                      </div>
-                    </SelectItem>
+                    <div className="flex items-center gap-2">
+                      <IconComponent className="h-3 w-3" style={{ color: PLAYER_TYPES[op].color }} />
+                      {PLAYER_TYPES[op].name[language]}
+                    </div>
+                  </SelectItem>
                   )
                 })}
               </SelectContent>
