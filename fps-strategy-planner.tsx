@@ -141,7 +141,7 @@ type MarkerType = "danger" | "watch" | "objective"
 type Tool = "player" | "blueArrow" | "redArrow" | "move" | "erase" | "pan" | "wall" | "danger" | "watch" | "objective"
 type MapType = "dust2" | "mirage" | "inferno" | "cache" | "overpass"
 type LayerType = "players" | "arrows" | "markers" | "walls"
-type FloorType = "ground" | "upper" | "lower" | "third" | "roof"
+type FloorType = "ground" | "upper" | "lower" | "basement"
 type Language = "ko" | "en" | "ja"
 type Theme = "light" | "dark"
 
@@ -487,7 +487,7 @@ const ROLE_DEFAULTS = {
 
 // 오퍼레이터 아이콘 컴포넌트 (이미지 URL 기반)
 const OperatorIcon: React.FC<{ url: string; className?: string }> = ({ url, className }) => (
-  <img src={url} alt="operator" className={className} style={{ width: "15%", height: "15%" }} />
+  <img src={url} alt="operator" className={className} style={{ width: "20%", height: "20%" }} />
 )
 
 // 오퍼레이터별 이미지 URL 매핑
@@ -600,52 +600,23 @@ const FLOOR_INFO: Record<FloorType, FloorInfo> = {
     color: "#f59e0b",
     shortcut: "Shift+3",
   },
-  third: {
-    name: { ko: "3층", en: "3rd Floor", ja: "3階" },
-    icon: ArrowUp,
-    color: "#a855f7",
+  basement: {
+    name: { ko: "지하 2층", en: "Basement", ja: "地下2階" },
+    icon: ArrowDown,
+    color: "#ef4444",
     shortcut: "Shift+4",
-  },
-  roof: {
-    name: { ko: "옥상", en: "Roof", ja: "屋上" },
-    icon: Sun,
-    color: "#fbbf24",
-    shortcut: "Shift+5",
   },
 }
 
-const MAPS: Record<MapType, {
-  name: string
-  background: { light: string; dark: string }
-  floors: FloorType[]
-  images?: Partial<Record<FloorType, string>>
-}> = {
-  dust2: {
-    name: "Dust2",
-    background: { light: "#d4a574", dark: "#8b6914" },
-    floors: ["ground", "upper", "roof"],
-    images: {
-      ground: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212991/r6-maps-outback-blueprint-1_obvhnm.jpg",
-      upper: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212992/r6-maps-outback-blueprint-2_kalqf9.jpg",
-      roof: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212992/r6-maps-outback-blueprint-3_ptt5g0.jpg",
-    },
-  },
-  mirage: {
-    name: "Mirage",
-    background: { light: "#c4b5a0", dark: "#78716c" },
-    floors: ["ground", "upper", "lower"],
-    images: {
-      ground: "https://your-image-url/mirage-ground.png",
-      upper: "https://your-image-url/mirage-upper.png",
-      lower: "https://your-image-url/mirage-lower.png",
-    },
-  },
+const MAPS: Record<MapType, { name: string; background: { light: string; dark: string }; floors: FloorType[] }> = {
+  dust2: { name: "Dust2", background: { light: "#d4a574", dark: "#8b6914" }, floors: ["ground", "upper"] },
+  mirage: { name: "Mirage", background: { light: "#c4b5a0", dark: "#78716c" }, floors: ["ground", "upper", "lower"] },
   inferno: { name: "Inferno", background: { light: "#8b7355", dark: "#57534e" }, floors: ["ground", "upper"] },
   cache: { name: "Cache", background: { light: "#a8a8a8", dark: "#525252" }, floors: ["ground", "lower"] },
   overpass: {
     name: "Overpass",
     background: { light: "#7fb069", dark: "#365314" },
-    floors: ["ground", "upper", "lower"],
+    floors: ["ground", "upper", "lower", "basement"],
   },
 }
 
@@ -808,7 +779,7 @@ export default function Component() {
   // 번역 함수
   const t = useCallback(
     (key: string) => {
-      return TRANSLATIONS[language]?.[key] ?? key
+      return TRANSLATIONS[language][key] || key
     },
     [language],
   )
@@ -1038,12 +1009,7 @@ export default function Component() {
       }
       if (event.shiftKey && event.key === "4") {
         event.preventDefault()
-        handleFloorChange("third")
-        return
-      }
-      if (event.shiftKey && event.key === "5") {
-        event.preventDefault()
-        handleFloorChange("roof")
+        handleFloorChange("basement")
         return
       }
 
@@ -1516,10 +1482,10 @@ export default function Component() {
           className="pointer-events-none"
         />
         <foreignObject
-          x={player.position.x - 125}  // 아이콘의 절반 크기만큼 이동
-          y={player.position.y - 125}
-          width="250"
-          height="250"
+          x={player.position.x - 100}  // 아이콘의 절반 크기만큼 이동
+          y={player.position.y - 100}
+          width="200"
+          height="200"
           className="pointer-events-none"
         >
           <div className="w-full h-full flex items-center justify-center">
@@ -1901,8 +1867,7 @@ export default function Component() {
                   <div>Shift+1 - {FLOOR_INFO.ground.name[language]}</div>
                   <div>Shift+2 - {FLOOR_INFO.upper.name[language]}</div>
                   <div>Shift+3 - {FLOOR_INFO.lower.name[language]}</div>
-                  <div>Shift+4 - {FLOOR_INFO.third.name[language]}</div>
-                  <div>Shift+5 - {FLOOR_INFO.roof.name[language]}</div>
+                  <div>Shift+4 - {FLOOR_INFO.basement.name[language]}</div>
                 </div>
               </div>
               <div>
@@ -2151,7 +2116,7 @@ export default function Component() {
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="py-0">
+              <SelectContent className="max-h-60 overflow-y-auto">
                 {ops.map(op => {
                   const IconComponent = PLAYER_TYPES[op].icon
                   return (
@@ -2489,37 +2454,32 @@ export default function Component() {
         </Card>
 
         {/* 지도 영역 */}
-        <svg
-          ref={svgRef}
-          className="w-full h-full"
-          onMouseDown={handleSVGMouseDown}
-          onMouseMove={handleSVGMouseMove}
-          onMouseUp={handleSVGMouseUp}
-          onWheel={handleWheel}
-          style={{
-            cursor:
-              selectedTool === "move"
-                ? "move"
-                : selectedTool === "blueArrow" || selectedTool === "redArrow" || selectedTool === "wall"
-                  ? "crosshair"
-                  : selectedTool === "pan"
-                    ? "grab"
-                    : "pointer",
-            backgroundColor: MAPS[selectedMap].background[theme],
-          }}
-        >
-          <g transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}>
-            {/* 현재 층 이미지가 있으면 표시 */}
-            {MAPS[selectedMap].images?.[selectedFloor] && (
-              <image
-                href={MAPS[selectedMap].images[selectedFloor]}
-                x="-5000"
-                y="-5000"
-                width="10000"
-                height="10000"
-                preserveAspectRatio="xMidYMid slice"
-              />
-            )}
+        <div className="flex-1 m-4 ml-0 flex items-center justify-center">
+          <Card
+            className="aspect-square w-full max-w-[min(100%,calc(100vh-120px))] h-full max-h-[calc(100vh-120px)]"
+            style={{ backgroundColor: currentColors.cardBackground, borderColor: currentColors.border }}
+          >
+            <CardContent className="p-0 h-full overflow-hidden">
+              <svg
+                ref={svgRef}
+                className="w-full h-full"
+                onMouseDown={handleSVGMouseDown}
+                onMouseMove={handleSVGMouseMove}
+                onMouseUp={handleSVGMouseUp}
+                onWheel={handleWheel}
+                style={{
+                  cursor:
+                    selectedTool === "move"
+                      ? "move"
+                      : selectedTool === "blueArrow" || selectedTool === "redArrow" || selectedTool === "wall"
+                        ? "crosshair"
+                        : selectedTool === "pan"
+                          ? "grab"
+                          : "pointer",
+                  backgroundColor: MAPS[selectedMap].background[theme],
+                }}
+              >
+                <g transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}>
                   {/* 격자 배경 */}
                   <defs>
                     <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
