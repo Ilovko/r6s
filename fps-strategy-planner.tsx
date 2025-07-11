@@ -614,15 +614,66 @@ const FLOOR_INFO: Record<FloorType, FloorInfo> = {
   },
 }
 
-const MAPS: Record<MapType, { name: string; background: { light: string; dark: string }; floors: FloorType[] }> = {
-  dust2: { name: "Dust2", background: { light: "#d4a574", dark: "#8b6914" }, floors: ["ground", "upper"] },
-  mirage: { name: "Mirage", background: { light: "#c4b5a0", dark: "#78716c" }, floors: ["ground", "upper", "lower"] },
-  inferno: { name: "Inferno", background: { light: "#8b7355", dark: "#57534e" }, floors: ["ground", "upper"] },
-  cache: { name: "Cache", background: { light: "#a8a8a8", dark: "#525252" }, floors: ["ground", "lower"] },
-  overpass: {
-    name: "Overpass",
-    background: { light: "#7fb069", dark: "#365314" },
+const MAPS: Record<MapType, {
+  name: string
+  background: { light: string; dark: string }
+  floors: FloorType[]
+  images: Partial<Record<FloorType, string>>
+}> = {
+  dust2: {
+    name: "Dust2",
+    background: { light: "#d4a574", dark: "#8b6914" },
+    floors: ["ground", "upper", "three", "rooftop"],
+    images: {
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
+    },
+  },
+  mirage: {
+    name: "Mirage",
+    background: { light: "#c4b5a0", dark: "#78716c" },
     floors: ["ground", "upper", "lower"],
+    images: {
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
+    },
+  },
+  inferno: {
+    name: "Inferno",
+    background: { light: "#8b7355", dark: "#57534e" },
+    floors: ["ground", "upper", "lower"],
+    images: {
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
+    },
+  },
+  cache: {
+    name: "Inferno",
+    background: { light: "#8b7355", dark: "#57534e" },
+    floors: ["ground", "upper", "lower"],
+    images: {
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
+    },
+  },
+  overpass: {
+    name: "Inferno",
+    background: { light: "#8b7355", dark: "#57534e" },
+    floors: ["ground", "upper", "lower"],
+    images: {
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
+    },
   },
 }
 
@@ -2479,7 +2530,17 @@ export default function Component() {
                   backgroundColor: MAPS[selectedMap].background[theme],
                 }}
               >
-                <g transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}>
+                {/* 맵 이미지 배경 추가 */}
+                  <image
+                    href={MAPS[selectedMap].images[selectedFloor]}
+                    x="-5000"
+                    y="-5000"
+                    width="10000"
+                    height="10000"
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+
+                  <g transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}>
                   {/* 격자 배경 */}
                   <defs>
                     <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
