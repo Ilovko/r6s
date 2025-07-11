@@ -141,7 +141,7 @@ type MarkerType = "danger" | "watch" | "objective"
 type Tool = "player" | "blueArrow" | "redArrow" | "move" | "erase" | "pan" | "wall" | "danger" | "watch" | "objective"
 type MapType = "dust2" | "mirage" | "inferno" | "cache" | "overpass"
 type LayerType = "players" | "arrows" | "markers" | "walls"
-type FloorType = "ground" | "upper" | "lower" | "basement"
+type FloorType = "ground" | "upper" | "lower" | "three" | "rooftop"
 type Language = "ko" | "en" | "ja"
 type Theme = "light" | "dark"
 
@@ -594,17 +594,23 @@ const FLOOR_INFO: Record<FloorType, FloorInfo> = {
     color: "#3b82f6",
     shortcut: "Shift+2",
   },
+  three: {
+    name: { ko: "3층", en: "3rd Floor", ja: "3階" },
+    icon: ArrowUp,
+    color: "#6366f1",
+    shortcut: "Shift+3",
+  },
   lower: {
     name: { ko: "지하 1층", en: "Lower Floor", ja: "地下1階" },
     icon: ArrowDown,
     color: "#f59e0b",
-    shortcut: "Shift+3",
-  },
-  basement: {
-    name: { ko: "지하 2층", en: "Basement", ja: "地下2階" },
-    icon: ArrowDown,
-    color: "#ef4444",
     shortcut: "Shift+4",
+  },
+  rooftop: {
+    name: { ko: "옥상", en: "Rooftop", ja: "屋上" },
+    icon: Sun,
+    color: "#fbbf24",
+    shortcut: "Shift+5",
   },
 }
 
@@ -616,7 +622,7 @@ const MAPS: Record<MapType, { name: string; background: { light: string; dark: s
   overpass: {
     name: "Overpass",
     background: { light: "#7fb069", dark: "#365314" },
-    floors: ["ground", "upper", "lower", "basement"],
+    floors: ["ground", "upper", "lower"],
   },
 }
 
@@ -1005,11 +1011,6 @@ export default function Component() {
       if (event.shiftKey && event.key === "3") {
         event.preventDefault()
         handleFloorChange("lower")
-        return
-      }
-      if (event.shiftKey && event.key === "4") {
-        event.preventDefault()
-        handleFloorChange("basement")
         return
       }
 
@@ -1867,7 +1868,6 @@ export default function Component() {
                   <div>Shift+1 - {FLOOR_INFO.ground.name[language]}</div>
                   <div>Shift+2 - {FLOOR_INFO.upper.name[language]}</div>
                   <div>Shift+3 - {FLOOR_INFO.lower.name[language]}</div>
-                  <div>Shift+4 - {FLOOR_INFO.basement.name[language]}</div>
                 </div>
               </div>
               <div>
