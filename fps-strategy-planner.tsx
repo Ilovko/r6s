@@ -641,7 +641,7 @@ export default function Component() {
   const [markers, setMarkers] = useState<TacticalMarker[]>([])
   const [walls, setWalls] = useState<Wall[]>([])
   const [selectedTool, setSelectedTool] = useState<Tool>("player")
-  const [selectedPlayerType, setSelectedPlayerType] = useState<PlayerType>("assault")
+  const [selectedPlayerType, setSelectedPlayerType] = useState<PlayerType>("Ash")
   const [selectedTeam, setSelectedTeam] = useState<"attack" | "defense">("attack")
   const [selectedMap, setSelectedMap] = useState<MapType>("dust2")
   const [selectedFloor, setSelectedFloor] = useState<FloorType>("ground")
