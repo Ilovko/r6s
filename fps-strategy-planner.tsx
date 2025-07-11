@@ -808,7 +808,7 @@ export default function Component() {
   // 번역 함수
   const t = useCallback(
     (key: string) => {
-      return TRANSLATIONS[language][key] || key
+      return TRANSLATIONS[language]?.[key] ?? key
     },
     [language],
   )
