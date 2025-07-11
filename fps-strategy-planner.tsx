@@ -623,12 +623,11 @@ const MAPS: Record<MapType, {
   dust2: {
     name: "Dust2",
     background: { light: "#d4a574", dark: "#8b6914" },
-    floors: ["ground", "upper", "three", "rooftop"],
+    floors: ["ground", "upper", "rooftop"],
     images: {
-      ground: "https://your-cdn.com/dust2-ground.png",
-      upper: "https://your-cdn.com/dust2-upper.png",
-      three: "https://your-cdn.com/dust2-three.png",
-      rooftop: "https://your-cdn.com/dust2-rooftop.png",
+      ground: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212991/r6-maps-outback-blueprint-1_obvhnm.jpg",
+      upper: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212992/r6-maps-outback-blueprint-2_kalqf9.jpg",
+      rooftop: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212992/r6-maps-outback-blueprint-3_ptt5g0.jpg",
     },
   },
   mirage: {
