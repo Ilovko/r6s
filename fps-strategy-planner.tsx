@@ -452,37 +452,93 @@ const OPERATOR_ROLES = {
   },
 } as const
 
-// 오퍼레이터 정보
-const PLAYER_TYPES: Record<PlayerType, PlayerTypeInfo> = {
-  Ash:      { name: { ko: "Ash", en: "Ash", ja: "Ash" }, icon: Crosshair, color: "#f59e0b" },
-  Iana:     { name: { ko: "Iana", en: "Iana", ja: "Iana" }, icon: Crosshair, color: "#f59e0b" },
-  Zofia:    { name: { ko: "Zofia", en: "Zofia", ja: "Zofia" }, icon: Crosshair, color: "#f59e0b" },
-  Sledge:   { name: { ko: "Sledge", en: "Sledge", ja: "Sledge" }, icon: Crosshair, color: "#f59e0b" },
-  Nøkk:     { name: { ko: "Nøkk", en: "Nøkk", ja: "Nøkk" }, icon: Crosshair, color: "#f59e0b" },
-
-  Thermite: { name: { ko: "Thermite", en: "Thermite", ja: "Thermite" }, icon: Shield, color: "#10b981" },
-  Hibana:   { name: { ko: "Hibana", en: "Hibana", ja: "Hibana" }, icon: Shield, color: "#10b981" },
-  Ace:      { name: { ko: "Ace", en: "Ace", ja: "Ace" }, icon: Shield, color: "#10b981" },
-  Maverick: { name: { ko: "Maverick", en: "Maverick", ja: "Maverick" }, icon: Shield, color: "#10b981" },
-
-  Thatcher: { name: { ko: "Thatcher", en: "Thatcher", ja: "Thatcher" }, icon: Zap, color: "#8b5cf6" },
-  Zero:     { name: { ko: "Zero", en: "Zero", ja: "Zero" }, icon: Zap, color: "#8b5cf6" },
-  Lion:     { name: { ko: "Lion", en: "Lion", ja: "Lion" }, icon: Zap, color: "#8b5cf6" },
-  Dokkaebi: { name: { ko: "Dokkaebi", en: "Dokkaebi", ja: "Dokkaebi" }, icon: Zap, color: "#8b5cf6" },
-  Gridlock: { name: { ko: "Gridlock", en: "Gridlock", ja: "Gridlock" }, icon: Zap, color: "#8b5cf6" },
-
-  Smoke:    { name: { ko: "Smoke", en: "Smoke", ja: "Smoke" }, icon: Heart, color: "#ec4899" },
-  Echo:     { name: { ko: "Echo", en: "Echo", ja: "Echo" }, icon: Heart, color: "#ec4899" },
-  Maestro:  { name: { ko: "Maestro", en: "Maestro", ja: "Maestro" }, icon: Heart, color: "#ec4899" },
-  Warden:   { name: { ko: "Warden", en: "Warden", ja: "Warden" }, icon: Heart, color: "#ec4899" },
-  Goyo:     { name: { ko: "Goyo", en: "Goyo", ja: "Goyo" }, icon: Heart, color: "#ec4899" },
-
-  Jäger:    { name: { ko: "Jäger", en: "Jäger", ja: "Jäger" }, icon: Move, color: "#ef4444" },
-  Valkyrie: { name: { ko: "Valkyrie", en: "Valkyrie", ja: "Valkyrie" }, icon: Move, color: "#ef4444" },
-  Caveira:  { name: { ko: "Caveira", en: "Caveira", ja: "Caveira" }, icon: Move, color: "#ef4444" },
-  Vigil:    { name: { ko: "Vigil", en: "Vigil", ja: "Vigil" }, icon: Move, color: "#ef4444" },
-  Alibi:    { name: { ko: "Alibi", en: "Alibi", ja: "Alibi" }, icon: Move, color: "#ef4444" },
+// 역할별 기본 설정 추가
+const ROLE_DEFAULTS = {
+  attack: {
+    entry: {
+      color: "#f59e0b",
+      labelPrefix: "T",
+      icon: Crosshair,
+    },
+    hardBreacher: {
+      color: "#10b981",
+      labelPrefix: "T",
+      icon: Shield,
+    },
+    support: {
+      color: "#8b5cf6",
+      labelPrefix: "T",
+      icon: Zap,
+    },
+  },
+  defense: {
+    anchor: {
+      color: "#ec4899",
+      labelPrefix: "CT",
+      icon: Heart,
+    },
+    roamer: {
+      color: "#ef4444",
+      labelPrefix: "CT",
+      icon: Move,
+    },
+  },
 }
+
+// 오퍼레이터 아이콘 컴포넌트 (이미지 URL 기반)
+const OperatorIcon: React.FC<{ url: string; className?: string }> = ({ url, className }) => (
+  <img src={url} alt="operator" className={className} style={{ width: "100%", height: "100%" }} />
+)
+
+// 오퍼레이터별 이미지 URL 매핑
+const OPERATOR_IMAGE_URLS: Record<PlayerType, string> = {
+  Ash: "https://static.wikia.nocookie.net/rainbowsix/images/6/6e/Ash_icon.png",
+  Iana: "https://static.wikia.nocookie.net/rainbowsix/images/2/2a/Iana_icon.png",
+  Zofia: "https://static.wikia.nocookie.net/rainbowsix/images/2/2a/Zofia_icon.png",
+  Sledge: "https://static.wikia.nocookie.net/rainbowsix/images/3/3c/Sledge_icon.png",
+  Nøkk: "https://static.wikia.nocookie.net/rainbowsix/images/1/1e/Nokk_icon.png",
+  Thermite: "https://static.wikia.nocookie.net/rainbowsix/images/2/2e/Thermite_icon.png",
+  Hibana: "https://static.wikia.nocookie.net/rainbowsix/images/9/9a/Hibana_icon.png",
+  Ace: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Ace_icon.png",
+  Maverick: "https://static.wikia.nocookie.net/rainbowsix/images/2/2e/Maverick_icon.png",
+  Thatcher: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Thatcher_icon.png",
+  Zero: "https://static.wikia.nocookie.net/rainbowsix/images/7/7e/Zero_icon.png",
+  Lion: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Lion_icon.png",
+  Dokkaebi: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Dokkaebi_icon.png",
+  Gridlock: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Gridlock_icon.png",
+  Smoke: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Smoke_icon.png",
+  Echo: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Echo_icon.png",
+  Maestro: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Maestro_icon.png",
+  Warden: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Warden_icon.png",
+  Goyo: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Goyo_icon.png",
+  Jäger: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Jager_icon.png",
+  Valkyrie: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Valkyrie_icon.png",
+  Caveira: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Caveira_icon.png",
+  Vigil: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Vigil_icon.png",
+  Alibi: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Alibi_icon.png",
+}
+
+
+// 오퍼레이터 정보
+const PLAYER_TYPES: Record<PlayerType, PlayerTypeInfo> = Object.fromEntries(
+  Object.entries(OPERATOR_IMAGE_URLS).map(([key, url]) => [
+    key,
+    {
+      name: { ko: key, en: key, ja: key },
+      icon: (props: { className?: string }) => <OperatorIcon url={url} className={props.className} />,
+      color:
+        key === "Ash" || key === "Iana" || key === "Zofia" || key === "Sledge" || key === "Nøkk"
+          ? "#f59e0b"
+          : key === "Thermite" || key === "Hibana" || key === "Ace" || key === "Maverick"
+          ? "#10b981"
+          : key === "Thatcher" || key === "Zero" || key === "Lion" || key === "Dokkaebi" || key === "Gridlock"
+          ? "#8b5cf6"
+          : key === "Smoke" || key === "Echo" || key === "Maestro" || key === "Warden" || key === "Goyo"
+          ? "#ec4899"
+          : "#ef4444",
+    },
+  ])
+) as Record<PlayerType, PlayerTypeInfo>
 
 const MARKER_TYPES: Record<MarkerType, MarkerTypeInfo> = {
   danger: {
@@ -2002,144 +2058,117 @@ export default function Component() {
             <Separator style={{ backgroundColor: currentColors.border }} />
 
             {/* 플레이어 배치 */}
-            <Collapsible
-              open={collapsibleState.playerPlacement}
-              onOpenChange={() => toggleCollapsible("playerPlacement")}
-            >
-              <CollapsibleTrigger asChild>
-                <Button variant="ghost" className="w-full justify-between p-0 h-auto">
-                  <h3 className="font-semibold flex items-center gap-2" style={{ color: currentColors.textPrimary }}>
-                    <Users className="h-4 w-4" />
-                    {t("playerPlacement")}
-                  </h3>
-                  {collapsibleState.playerPlacement ? (
-                    <ChevronDown className="h-4 w-4" />
-                  ) : (
-                    <ChevronRight className="h-4 w-4" />
-                  )}
-                </Button>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="mt-2 space-y-4">
-                {/* 팀 선택 */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium" style={{ color: currentColors.textPrimary }}>
-                    {t("teamSelection")}
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button
-                      variant={selectedTeam === "attack" ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setSelectedTeam("attack")}
-                      className="flex items-center gap-1"
-                    >
-                      <Target className="h-4 w-4 text-orange-500" />
-                      {t("attack")}
-                    </Button>
-                    <Button
-                      variant={selectedTeam === "defense" ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setSelectedTeam("defense")}
-                      className="flex items-center gap-1"
-                    >
-                      <Shield className="h-4 w-4 text-blue-500" />
-                      {t("defense")}
-                    </Button>
+              <Collapsible
+                open={collapsibleState.playerPlacement}
+                onOpenChange={() => toggleCollapsible("playerPlacement")}
+              >
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" className="w-full justify-between p-0 h-auto">
+                    <h3 className="font-semibold flex items-center gap-2" style={{ color: currentColors.textPrimary }}>
+                      <Users className="h-4 w-4" />
+                      {t("playerPlacement")}
+                    </h3>
+                    {collapsibleState.playerPlacement ? (
+                      <ChevronDown className="h-4 w-4" />
+                    ) : (
+                      <ChevronRight className="h-4 w-4" />
+                    )}
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="mt-2 space-y-4">
+                  {/* 역할 선택 - 탭 UI */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium" style={{ color: currentColors.textPrimary }}>
+                      {t("roleSelection")}
+                    </label>
+                    <Tabs defaultValue={selectedTeam} value={selectedTeam} onValueChange={v => setSelectedTeam(v as "attack" | "defense")}>
+                      <TabsList>
+                        <TabsTrigger value="attack">{t("attack")}</TabsTrigger>
+                        <TabsTrigger value="defense">{t("defense")}</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="attack">
+                        <Tabs defaultValue="entry">
+                          <TabsList>
+                            <TabsTrigger value="entry">엔트리</TabsTrigger>
+                            <TabsTrigger value="hardBreacher">하드브리처</TabsTrigger>
+                            <TabsTrigger value="support">서포트</TabsTrigger>
+                          </TabsList>
+                          {Object.entries(OPERATOR_ROLES.attack).map(([roleKey, ops]) => (
+                            <TabsContent key={roleKey} value={roleKey}>
+                              <Select
+                                value={selectedPlayerType}
+                                onValueChange={(value: PlayerType) => setSelectedPlayerType(value)}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {ops.map(op => {
+                                    const IconComponent = PLAYER_TYPES[op].icon
+                                    return (
+                                      <SelectItem key={op} value={op}>
+                                        <div className="flex items-center gap-2">
+                                          <IconComponent className="h-4 w-4" style={{ color: PLAYER_TYPES[op].color }} />
+                                          {PLAYER_TYPES[op].name[language]}
+                                        </div>
+                                      </SelectItem>
+                                    )
+                                  })}
+                                </SelectContent>
+                              </Select>
+                            </TabsContent>
+                          ))}
+                        </Tabs>
+                      </TabsContent>
+                      <TabsContent value="defense">
+                        <Tabs defaultValue="anchor">
+                          <TabsList>
+                            <TabsTrigger value="anchor">앵커</TabsTrigger>
+                            <TabsTrigger value="roamer">로머</TabsTrigger>
+                          </TabsList>
+                          {Object.entries(OPERATOR_ROLES.defense).map(([roleKey, ops]) => (
+                            <TabsContent key={roleKey} value={roleKey}>
+                              <Select
+                                value={selectedPlayerType}
+                                onValueChange={(value: PlayerType) => setSelectedPlayerType(value)}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {ops.map(op => {
+                                    const IconComponent = PLAYER_TYPES[op].icon
+                                    return (
+                                      <SelectItem key={op} value={op}>
+                                        <div className="flex items-center gap-2">
+                                          <IconComponent className="h-4 w-4" style={{ color: PLAYER_TYPES[op].color }} />
+                                          {PLAYER_TYPES[op].name[language]}
+                                        </div>
+                                      </SelectItem>
+                                    )
+                                  })}
+                                </SelectContent>
+                              </Select>
+                            </TabsContent>
+                          ))}
+                        </Tabs>
+                      </TabsContent>
+                    </Tabs>
                   </div>
-                </div>
 
-                {/* 역할 선택 - 탭 UI */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium" style={{ color: currentColors.textPrimary }}>
-                    {t("roleSelection")}
-                  </label>
-                  <Tabs defaultValue={selectedTeam} value={selectedTeam} onValueChange={v => setSelectedTeam(v as "attack" | "defense")}>
-                    <TabsList>
-                      <TabsTrigger value="attack">{t("attack")}</TabsTrigger>
-                      <TabsTrigger value="defense">{t("defense")}</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="attack">
-                      <Tabs defaultValue="entry">
-                        <TabsList>
-                          <TabsTrigger value="entry">엔트리</TabsTrigger>
-                          <TabsTrigger value="hardBreacher">하드브리처</TabsTrigger>
-                          <TabsTrigger value="support">서포트</TabsTrigger>
-                        </TabsList>
-                        {Object.entries(OPERATOR_ROLES.attack).map(([roleKey, ops]) => (
-                          <TabsContent key={roleKey} value={roleKey}>
-                            <Select
-                              value={selectedPlayerType}
-                              onValueChange={(value: PlayerType) => setSelectedPlayerType(value)}
-                            >
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {ops.map(op => {
-                                  const IconComponent = PLAYER_TYPES[op].icon
-                                  return (
-                                    <SelectItem key={op} value={op}>
-                                      <div className="flex items-center gap-2">
-                                        <IconComponent className="h-4 w-4" style={{ color: PLAYER_TYPES[op].color }} />
-                                        {PLAYER_TYPES[op].name[language]}
-                                      </div>
-                                    </SelectItem>
-                                  )
-                                })}
-                              </SelectContent>
-                            </Select>
-                          </TabsContent>
-                        ))}
-                      </Tabs>
-                    </TabsContent>
-                    <TabsContent value="defense">
-                      <Tabs defaultValue="anchor">
-                        <TabsList>
-                          <TabsTrigger value="anchor">앵커</TabsTrigger>
-                          <TabsTrigger value="roamer">로머</TabsTrigger>
-                        </TabsList>
-                        {Object.entries(OPERATOR_ROLES.defense).map(([roleKey, ops]) => (
-                          <TabsContent key={roleKey} value={roleKey}>
-                            <Select
-                              value={selectedPlayerType}
-                              onValueChange={(value: PlayerType) => setSelectedPlayerType(value)}
-                            >
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {ops.map(op => {
-                                  const IconComponent = PLAYER_TYPES[op].icon
-                                  return (
-                                    <SelectItem key={op} value={op}>
-                                      <div className="flex items-center gap-2">
-                                        <IconComponent className="h-4 w-4" style={{ color: PLAYER_TYPES[op].color }} />
-                                        {PLAYER_TYPES[op].name[language]}
-                                      </div>
-                                    </SelectItem>
-                                  )
-                                })}
-                              </SelectContent>
-                            </Select>
-                          </TabsContent>
-                        ))}
-                      </Tabs>
-                    </TabsContent>
-                  </Tabs>
-                </div>
-
-                {/* 배치 버튼 */}
-                <Button
-                  variant={selectedTool === "player" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedTool("player")}
-                  className="w-full flex items-center gap-2"
-                  disabled={layers.players.locked}
-                >
-                  <Users className="h-4 w-4" />
-                  {t(selectedTeam)} {PLAYER_TYPES[selectedPlayerType].name[language]} {t("placePlayer")}
-                </Button>
-              </CollapsibleContent>
-            </Collapsible>
+                  {/* 배치 버튼 */}
+                  <Button
+                    variant={selectedTool === "player" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedTool("player")}
+                    className="w-full flex items-center gap-2"
+                    disabled={layers.players.locked}
+                  >
+                    <Users className="h-4 w-4" />
+                    {t(selectedTeam)} {PLAYER_TYPES[selectedPlayerType].name[language]} {t("placePlayer")}
+                  </Button>
+                </CollapsibleContent>
+              </Collapsible>
 
             <Separator style={{ backgroundColor: currentColors.border }} />
 
