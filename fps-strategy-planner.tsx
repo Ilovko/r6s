@@ -2532,13 +2532,12 @@ export default function Component() {
                 {/* 맵 이미지 배경 추가 */}
                   <image
                     href={MAPS[selectedMap].images[selectedFloor]}
-                    x="-5000"
-                    y="-5000"
-                    width="10000"
-                    height="10000"
+                    x="0"
+                    y="0"
+                    width="100%"
+                    height="100%"
                     preserveAspectRatio="xMidYMid slice"
                   />
-
                   <g transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}>
                   {/* 격자 배경 */}
                   <defs>
