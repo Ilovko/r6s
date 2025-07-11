@@ -487,7 +487,7 @@ const ROLE_DEFAULTS = {
 
 // 오퍼레이터 아이콘 컴포넌트 (이미지 URL 기반)
 const OperatorIcon: React.FC<{ url: string; className?: string }> = ({ url, className }) => (
-  <img src={url} alt="operator" className={className} style={{ width: "100%", height: "100%" }} />
+  <img src={url} alt="operator" className={className} style={{ width: "20%", height: "20%" }} />
 )
 
 // 오퍼레이터별 이미지 URL 매핑
@@ -1482,13 +1482,15 @@ export default function Component() {
           className="pointer-events-none"
         />
         <foreignObject
-          x={player.position.x - 10}
-          y={player.position.y - 10}
-          width="20"
-          height="20"
+          x={player.position.x - 100}  // 아이콘의 절반 크기만큼 이동
+          y={player.position.y - 100}
+          width="200"
+          height="200"
           className="pointer-events-none"
         >
-          <IconComponent className="w-5 h-5 text-white" />
+          <div className="w-full h-full flex items-center justify-center">
+            <IconComponent className="w-10 h-10 text-white" />
+          </div>
         </foreignObject>
         <text
           x={player.position.x}
@@ -2080,10 +2082,17 @@ export default function Component() {
     {t("roleSelection")}
   </label>
   <Tabs
-    defaultValue={selectedTeam}
-    value={selectedTeam}
-    onValueChange={v => handleRoleTabChange(v as "attack" | "defense", selectedTeam === "attack" ? "entry" : "anchor")}
-  >
+      defaultValue={selectedTeam}
+      value={selectedTeam}
+      onValueChange={v => {
+        // 팀이 바뀌면 기본 역할로 변경
+        if (v === "attack") {
+          handleRoleTabChange("attack", "entry")
+        } else {
+          handleRoleTabChange("defense", "anchor")
+        }
+      }}
+    >
     <TabsList>
       <TabsTrigger value="attack">{t("attack")}</TabsTrigger>
       <TabsTrigger value="defense">{t("defense")}</TabsTrigger>
@@ -2107,16 +2116,17 @@ export default function Component() {
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-60 overflow-y-auto">
                 {ops.map(op => {
                   const IconComponent = PLAYER_TYPES[op].icon
                   return (
                     <SelectItem key={op} value={op}>
-                    <div className="flex items-center gap-2">
-                      <IconComponent className="h-3 w-3" style={{ color: PLAYER_TYPES[op].color }} />
-                      {PLAYER_TYPES[op].name[language]}
-                    </div>
-                  </SelectItem>
+                      <div className="flex items-center gap-1">
+                        {/* 역할 선택창 아이콘을 더 작게 */}
+                        <IconComponent className="h-2 w-2" style={{ color: PLAYER_TYPES[op].color }} />
+                        {PLAYER_TYPES[op].name[language]}
+                      </div>
+                    </SelectItem>
                   )
                 })}
               </SelectContent>
@@ -2172,7 +2182,7 @@ export default function Component() {
                     className="w-full flex items-center gap-2"
                     disabled={layers.players.locked}
                   >
-                    <Users className="h-4 w-4" />
+                    <Users className="h-2 w-2" />
                     {t(selectedTeam)} {PLAYER_TYPES[selectedPlayerType].name[language]} {t("placePlayer")}
                   </Button>
                 </CollapsibleContent>
