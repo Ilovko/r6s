@@ -60,6 +60,7 @@ import {
   Trash2,
   Download,
 } from "lucide-react"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 
 interface Position {
   x: number
@@ -130,7 +131,12 @@ interface SavedStrategy {
   theme: Theme
 }
 
-type PlayerType = "assault" | "sniper" | "support" | "tank" | "medic"
+type PlayerType =
+  | "Ash" | "Iana" | "Zofia" | "Sledge" | "Nøkk" // entry
+  | "Thermite" | "Hibana" | "Ace" | "Maverick" // hardBreacher
+  | "Thatcher" | "Zero" | "Lion" | "Dokkaebi" | "Gridlock" // support
+  | "Smoke" | "Echo" | "Maestro" | "Warden" | "Goyo" // anchor
+  | "Jäger" | "Valkyrie" | "Caveira" | "Vigil" | "Alibi" // roamer
 type MarkerType = "danger" | "watch" | "objective"
 type Tool = "player" | "blueArrow" | "redArrow" | "move" | "erase" | "pan" | "wall" | "danger" | "watch" | "objective"
 type MapType = "dust2" | "mirage" | "inferno" | "cache" | "overpass"
@@ -434,32 +440,48 @@ const TRANSLATIONS: Translations = {
   },
 }
 
+const OPERATOR_ROLES = {
+  attack: {
+    entry: ["Ash", "Iana", "Zofia", "Sledge", "Nøkk"],
+    hardBreacher: ["Thermite", "Hibana", "Ace", "Maverick"],
+    support: ["Thatcher", "Zero", "Lion", "Dokkaebi", "Gridlock"],
+  },
+  defense: {
+    anchor: ["Smoke", "Echo", "Maestro", "Warden", "Goyo"],
+    roamer: ["Jäger", "Valkyrie", "Caveira", "Vigil", "Alibi"],
+  },
+} as const
+
+// 오퍼레이터 정보
 const PLAYER_TYPES: Record<PlayerType, PlayerTypeInfo> = {
-  assault: {
-    name: { ko: "돌격수", en: "Assault", ja: "アサルト" },
-    icon: Crosshair,
-    color: "#f59e0b",
-  },
-  sniper: {
-    name: { ko: "저격수", en: "Sniper", ja: "スナイパー" },
-    icon: Scope,
-    color: "#8b5cf6",
-  },
-  support: {
-    name: { ko: "서포터", en: "Support", ja: "サポート" },
-    icon: Shield,
-    color: "#10b981",
-  },
-  tank: {
-    name: { ko: "탱커", en: "Tank", ja: "タンク" },
-    icon: Zap,
-    color: "#ef4444",
-  },
-  medic: {
-    name: { ko: "메딕", en: "Medic", ja: "メディック" },
-    icon: Heart,
-    color: "#ec4899",
-  },
+  Ash:      { name: { ko: "Ash", en: "Ash", ja: "Ash" }, icon: Crosshair, color: "#f59e0b" },
+  Iana:     { name: { ko: "Iana", en: "Iana", ja: "Iana" }, icon: Crosshair, color: "#f59e0b" },
+  Zofia:    { name: { ko: "Zofia", en: "Zofia", ja: "Zofia" }, icon: Crosshair, color: "#f59e0b" },
+  Sledge:   { name: { ko: "Sledge", en: "Sledge", ja: "Sledge" }, icon: Crosshair, color: "#f59e0b" },
+  Nøkk:     { name: { ko: "Nøkk", en: "Nøkk", ja: "Nøkk" }, icon: Crosshair, color: "#f59e0b" },
+
+  Thermite: { name: { ko: "Thermite", en: "Thermite", ja: "Thermite" }, icon: Shield, color: "#10b981" },
+  Hibana:   { name: { ko: "Hibana", en: "Hibana", ja: "Hibana" }, icon: Shield, color: "#10b981" },
+  Ace:      { name: { ko: "Ace", en: "Ace", ja: "Ace" }, icon: Shield, color: "#10b981" },
+  Maverick: { name: { ko: "Maverick", en: "Maverick", ja: "Maverick" }, icon: Shield, color: "#10b981" },
+
+  Thatcher: { name: { ko: "Thatcher", en: "Thatcher", ja: "Thatcher" }, icon: Zap, color: "#8b5cf6" },
+  Zero:     { name: { ko: "Zero", en: "Zero", ja: "Zero" }, icon: Zap, color: "#8b5cf6" },
+  Lion:     { name: { ko: "Lion", en: "Lion", ja: "Lion" }, icon: Zap, color: "#8b5cf6" },
+  Dokkaebi: { name: { ko: "Dokkaebi", en: "Dokkaebi", ja: "Dokkaebi" }, icon: Zap, color: "#8b5cf6" },
+  Gridlock: { name: { ko: "Gridlock", en: "Gridlock", ja: "Gridlock" }, icon: Zap, color: "#8b5cf6" },
+
+  Smoke:    { name: { ko: "Smoke", en: "Smoke", ja: "Smoke" }, icon: Heart, color: "#ec4899" },
+  Echo:     { name: { ko: "Echo", en: "Echo", ja: "Echo" }, icon: Heart, color: "#ec4899" },
+  Maestro:  { name: { ko: "Maestro", en: "Maestro", ja: "Maestro" }, icon: Heart, color: "#ec4899" },
+  Warden:   { name: { ko: "Warden", en: "Warden", ja: "Warden" }, icon: Heart, color: "#ec4899" },
+  Goyo:     { name: { ko: "Goyo", en: "Goyo", ja: "Goyo" }, icon: Heart, color: "#ec4899" },
+
+  Jäger:    { name: { ko: "Jäger", en: "Jäger", ja: "Jäger" }, icon: Move, color: "#ef4444" },
+  Valkyrie: { name: { ko: "Valkyrie", en: "Valkyrie", ja: "Valkyrie" }, icon: Move, color: "#ef4444" },
+  Caveira:  { name: { ko: "Caveira", en: "Caveira", ja: "Caveira" }, icon: Move, color: "#ef4444" },
+  Vigil:    { name: { ko: "Vigil", en: "Vigil", ja: "Vigil" }, icon: Move, color: "#ef4444" },
+  Alibi:    { name: { ko: "Alibi", en: "Alibi", ja: "Alibi" }, icon: Move, color: "#ef4444" },
 }
 
 const MARKER_TYPES: Record<MarkerType, MarkerTypeInfo> = {
@@ -1271,7 +1293,7 @@ export default function Component() {
           })
         }
       } else if (selectedTool === "erase") {
-        setWalls((prev) => prev.filter((w) => w.id !== wallId))
+        setWalls((prev) => prev.filter((w) => w.id === wallId))
         saveToHistory()
       }
     },
@@ -2025,32 +2047,84 @@ export default function Component() {
                   </div>
                 </div>
 
-                {/* 역할 선택 */}
+                {/* 역할 선택 - 탭 UI */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium" style={{ color: currentColors.textPrimary }}>
                     {t("roleSelection")}
                   </label>
-                  <Select
-                    value={selectedPlayerType}
-                    onValueChange={(value: PlayerType) => setSelectedPlayerType(value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.entries(PLAYER_TYPES).map(([key, type]) => {
-                        const IconComponent = type.icon
-                        return (
-                          <SelectItem key={key} value={key}>
-                            <div className="flex items-center gap-2">
-                              <IconComponent className="h-4 w-4" style={{ color: type.color }} />
-                              {type.name[language]}
-                            </div>
-                          </SelectItem>
-                        )
-                      })}
-                    </SelectContent>
-                  </Select>
+                  <Tabs defaultValue={selectedTeam} value={selectedTeam} onValueChange={v => setSelectedTeam(v as "attack" | "defense")}>
+                    <TabsList>
+                      <TabsTrigger value="attack">{t("attack")}</TabsTrigger>
+                      <TabsTrigger value="defense">{t("defense")}</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="attack">
+                      <Tabs defaultValue="entry">
+                        <TabsList>
+                          <TabsTrigger value="entry">엔트리</TabsTrigger>
+                          <TabsTrigger value="hardBreacher">하드브리처</TabsTrigger>
+                          <TabsTrigger value="support">서포트</TabsTrigger>
+                        </TabsList>
+                        {Object.entries(OPERATOR_ROLES.attack).map(([roleKey, ops]) => (
+                          <TabsContent key={roleKey} value={roleKey}>
+                            <Select
+                              value={selectedPlayerType}
+                              onValueChange={(value: PlayerType) => setSelectedPlayerType(value)}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {ops.map(op => {
+                                  const IconComponent = PLAYER_TYPES[op].icon
+                                  return (
+                                    <SelectItem key={op} value={op}>
+                                      <div className="flex items-center gap-2">
+                                        <IconComponent className="h-4 w-4" style={{ color: PLAYER_TYPES[op].color }} />
+                                        {PLAYER_TYPES[op].name[language]}
+                                      </div>
+                                    </SelectItem>
+                                  )
+                                })}
+                              </SelectContent>
+                            </Select>
+                          </TabsContent>
+                        ))}
+                      </Tabs>
+                    </TabsContent>
+                    <TabsContent value="defense">
+                      <Tabs defaultValue="anchor">
+                        <TabsList>
+                          <TabsTrigger value="anchor">앵커</TabsTrigger>
+                          <TabsTrigger value="roamer">로머</TabsTrigger>
+                        </TabsList>
+                        {Object.entries(OPERATOR_ROLES.defense).map(([roleKey, ops]) => (
+                          <TabsContent key={roleKey} value={roleKey}>
+                            <Select
+                              value={selectedPlayerType}
+                              onValueChange={(value: PlayerType) => setSelectedPlayerType(value)}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {ops.map(op => {
+                                  const IconComponent = PLAYER_TYPES[op].icon
+                                  return (
+                                    <SelectItem key={op} value={op}>
+                                      <div className="flex items-center gap-2">
+                                        <IconComponent className="h-4 w-4" style={{ color: PLAYER_TYPES[op].color }} />
+                                        {PLAYER_TYPES[op].name[language]}
+                                      </div>
+                                    </SelectItem>
+                                  )
+                                })}
+                              </SelectContent>
+                            </Select>
+                          </TabsContent>
+                        ))}
+                      </Tabs>
+                    </TabsContent>
+                  </Tabs>
                 </div>
 
                 {/* 배치 버튼 */}
