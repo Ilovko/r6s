@@ -492,7 +492,7 @@ const OperatorIcon: React.FC<{ url: string; className?: string }> = ({ url, clas
 
 // 오퍼레이터별 이미지 URL 매핑
 const OPERATOR_IMAGE_URLS: Record<PlayerType, string> = {
-  Ash: "https://static.wikia.nocookie.net/rainbowsix/images/6/6e/Ash_icon.png",
+  Ash: "https://drive.google.com/file/d/1K8E3ZYHj-4vx4jq55xBDdPtcbY5n0cLD/view?usp=sharing",
   Iana: "https://static.wikia.nocookie.net/rainbowsix/images/2/2a/Iana_icon.png",
   Zofia: "https://static.wikia.nocookie.net/rainbowsix/images/2/2a/Zofia_icon.png",
   Sledge: "https://static.wikia.nocookie.net/rainbowsix/images/3/3c/Sledge_icon.png",
