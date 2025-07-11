@@ -2529,16 +2529,15 @@ export default function Component() {
                   backgroundColor: MAPS[selectedMap].background[theme],
                 }}
               >
-                {/* 맵 이미지 배경 추가 */}
-                  <image
-                    href={MAPS[selectedMap].images[selectedFloor]}
-                    x="0"
-                    y="0"
-                    width="100%"
-                    height="100%"
-                    preserveAspectRatio="xMidYMid slice"
-                  />
                   <g transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}>
+                    <image
+                      href={MAPS[selectedMap].images[selectedFloor]}
+                      x="0"
+                      y="0"
+                      width="100%"
+                      height="100%"
+                      preserveAspectRatio="xMidYMid slice"
+                    />
                   {/* 격자 배경 */}
                   <defs>
                     <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
