@@ -1511,13 +1511,14 @@ export default function Component() {
     const IconComponent = typeInfo.icon
     const opacity = layers.players.locked ? 0.6 : 1
 
+    // 크기 조정: 기존 36/24/200 → 24/16/80 등으로 축소
     return (
       <g key={player.id} opacity={opacity}>
         <rect
-          x={player.position.x - 18}
-          y={player.position.y - 18}
-          width="36"
-          height="36"
+          x={player.position.x - 12}
+          y={player.position.y - 12}
+          width="24"
+          height="24"
           fill={player.team === "attack" ? "#f97316" : "#3b82f6"}
           stroke="white"
           strokeWidth="2"
@@ -1525,30 +1526,30 @@ export default function Component() {
           onMouseDown={(e) => handlePlayerMouseDown(e, player.id)}
         />
         <rect
-          x={player.position.x - 12}
-          y={player.position.y - 12}
-          width="24"
-          height="24"
+          x={player.position.x - 8}
+          y={player.position.y - 8}
+          width="16"
+          height="16"
           fill={typeInfo.color}
           className="pointer-events-none"
         />
         <foreignObject
-          x={player.position.x - 100}  // 아이콘의 절반 크기만큼 이동
-          y={player.position.y - 100}
-          width="200"
-          height="200"
+          x={player.position.x - 40}
+          y={player.position.y - 40}
+          width="80"
+          height="80"
           className="pointer-events-none"
         >
           <div className="w-full h-full flex items-center justify-center">
-            <IconComponent className="w-10 h-10 text-white" />
+            <IconComponent className="w-5 h-5 text-white" />
           </div>
         </foreignObject>
         <text
           x={player.position.x}
-          y={player.position.y + 32}
+          y={player.position.y + 18}
           textAnchor="middle"
           fill={theme === "dark" ? "white" : "black"}
-          fontSize="10"
+          fontSize="8"
           fontWeight="bold"
           className="pointer-events-none select-none"
         >
@@ -1565,12 +1566,13 @@ export default function Component() {
     const IconComponent = typeInfo.icon
     const opacity = layers.markers.locked ? 0.6 : 1
 
+    // 크기 조정: 기존 r=15, width/height=16 → r=10, width/height=10 등으로 축소
     return (
       <g key={marker.id} opacity={opacity}>
         <circle
           cx={marker.position.x}
           cy={marker.position.y}
-          r="15"
+          r="10"
           fill={typeInfo.color}
           stroke="white"
           strokeWidth="2"
@@ -1578,13 +1580,13 @@ export default function Component() {
           onMouseDown={(e) => handleMarkerMouseDown(e, marker.id)}
         />
         <foreignObject
-          x={marker.position.x - 8}
-          y={marker.position.y - 8}
-          width="16"
-          height="16"
+          x={marker.position.x - 5}
+          y={marker.position.y - 5}
+          width="10"
+          height="10"
           className="pointer-events-none"
         >
-          <IconComponent className="w-4 h-4 text-white" />
+          <IconComponent className="w-2.5 h-2.5 text-white" />
         </foreignObject>
       </g>
     )
