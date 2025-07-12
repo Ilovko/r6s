@@ -767,7 +767,7 @@ const MAPS: Record<MapType, {
     },
   },
   overpass: {
-    name: "Inferno",
+    name: "Coastline",
     background: { light: "#8b7355", dark: "#57534e" },
     floors: ["ground", "upper", "rooftop"],
     images: {
