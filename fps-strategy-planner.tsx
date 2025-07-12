@@ -776,7 +776,7 @@ const MAPS: Record<MapType, {
       rooftop: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752303064/r6-maps-coastline-blueprint-3_dugavd.jpg",
     },
   },
-}
+} as const
 
 const KEYBOARD_SHORTCUTS = {
   "1": "blueArrow",
