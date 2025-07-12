@@ -223,7 +223,7 @@ const THEME_COLORS: ThemeColors = {
 
 const TRANSLATIONS: Translations = {
   ko: {
-    title: "FPS 전략 플래너",
+    title: "R6S 전략판",
     mapSelection: "맵 선택",
     floorSelection: "층 선택",
     layerManagement: "레이어 관리",
@@ -295,7 +295,7 @@ const TRANSLATIONS: Translations = {
     deleteSelected: "선택한 전략 삭제",
   },
   en: {
-    title: "FPS Strategy Planner",
+    title: "R6S Strategy Maps",
     mapSelection: "Map Selection",
     floorSelection: "Floor Selection",
     layerManagement: "Layer Management",
@@ -367,7 +367,7 @@ const TRANSLATIONS: Translations = {
     deleteSelected: "Delete Selected Strategy",
   },
   ja: {
-    title: "FPS戦略プランナー",
+    title: "R6S 戦略マップ",
     mapSelection: "マップ選択",
     floorSelection: "フロア選択",
     layerManagement: "レイヤー管理",
