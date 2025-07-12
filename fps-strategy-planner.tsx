@@ -692,7 +692,7 @@ const FLOOR_INFO: Record<FloorType, FloorInfo> = {
     shortcut: "Shift+1",
   },
   upper: {
-    name: { ko: "2층", en: "2nd Floor", ja: "2階" },
+    name: { ko: "2층 (상층)", en: "Upper Floor", ja: "2階（上層）" },
     icon: ArrowUp,
     color: "#3b82f6",
     shortcut: "Shift+2",
@@ -717,88 +717,67 @@ const FLOOR_INFO: Record<FloorType, FloorInfo> = {
   },
 }
 
-const MAPS: Record<
-  MapType,
-  {
-    name: string;
-    background: { light: string; dark: string };
-    floors: FloorType[];
-    images: Partial<Record<FloorType, string>>;
-  }
-> = {
+const MAPS: Record<MapType, {
+  name: string
+  background: { light: string; dark: string }
+  floors: FloorType[]
+  images: Partial<Record<FloorType, string>>
+}> = {
   dust2: {
-    name: "Outback",
+    name: "Dust2",
     background: { light: "#d4a574", dark: "#8b6914" },
     floors: ["ground", "upper", "rooftop"],
     images: {
-      ground:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212991/r6-maps-outback-blueprint-1_obvhnm.jpg",
-      upper:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212992/r6-maps-outback-blueprint-2_kalqf9.jpg",
-      rooftop:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212992/r6-maps-outback-blueprint-3_ptt5g0.jpg",
+      ground: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212991/r6-maps-outback-blueprint-1_obvhnm.jpg",
+      upper: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212992/r6-maps-outback-blueprint-2_kalqf9.jpg",
+      rooftop: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752212992/r6-maps-outback-blueprint-3_ptt5g0.jpg",
     },
   },
   mirage: {
-    name: "Skyscraper",
+    name: "Mirage",
     background: { light: "#c4b5a0", dark: "#78716c" },
-    floors: ["ground", "upper", "rooftop"],
+    floors: ["ground", "upper", "lower"],
     images: {
-      ground:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302250/r6-maps-skyscraper-blueprint-1_o8vmok.jpg",
-      upper:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302251/r6-maps-skyscraper-blueprint-2_mwf9dp.jpg",
-      rooftop:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302252/r6-maps-skyscraper-blueprint-3_jtdklm.jpg",
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
     },
   },
   inferno: {
-    name: "Chalet",
+    name: "Inferno",
     background: { light: "#8b7355", dark: "#57534e" },
-    floors: ["ground", "upper", "lower", "rooftop"],
+    floors: ["ground", "upper", "lower"],
     images: {
-      ground:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302643/r6-maps-chalet-blueprint-2_sw9s5p.jpg",
-      upper:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302644/r6-maps-chalet-blueprint-3_od6bqf.jpg",
-      lower:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302642/r6-maps-chalet-blueprint-1_wyh2op.jpg",
-      rooftop:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302643/r6-maps-chalet-blueprint-4_ryfe4k.jpg",
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
     },
   },
   cache: {
-    name: "Oregon",
+    name: "Inferno",
     background: { light: "#8b7355", dark: "#57534e" },
-    floors: ["ground", "upper", "three", "lower", "rooftop"],
+    floors: ["ground", "upper", "lower"],
     images: {
-      ground:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302888/r6-maps-oregon-blueprint-2_c5kdwy.jpg",
-      upper:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302888/r6-maps-oregon-blueprint-3_pbwog1.jpg",
-      three:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302889/r6-maps-oregon-blueprint-4_csqc2x.jpg",
-      lower:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302887/r6-maps-oregon-blueprint-1_gkydhb.jpg",
-      rooftop:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302890/r6-maps-oregon-blueprint-5_kx1myg.jpg",
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
     },
   },
   overpass: {
-    name: "Coastline",
+    name: "Inferno",
     background: { light: "#8b7355", dark: "#57534e" },
-    floors: ["ground", "upper", "rooftop"],
+    floors: ["ground", "upper", "lower"],
     images: {
-      ground:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752303063/r6-maps-coastline-blueprint-1_g74zev.jpg",
-      upper:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752303064/r6-maps-coastline-blueprint-2_kwmid1.jpg",
-      rooftop:
-        "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752303064/r6-maps-coastline-blueprint-3_dugavd.jpg",
+      ground: "https://your-cdn.com/dust2-ground.png",
+      upper: "https://your-cdn.com/dust2-upper.png",
+      three: "https://your-cdn.com/dust2-three.png",
+      rooftop: "https://your-cdn.com/dust2-rooftop.png",
     },
   },
-} as const;
-
+}
 
 const KEYBOARD_SHORTCUTS = {
   "1": "blueArrow",
@@ -2677,12 +2656,10 @@ export default function Component() {
                       href={MAPS[selectedMap].images[selectedFloor]}
                       x="0"
                       y="0"
-                      width="2000"
-                      height="2000"
-                      preserveAspectRatio="xMidYMid meet"
+                      width="100%"
+                      height="100%"
+                      preserveAspectRatio="xMidYMid slice"
                     />
-                    {/* ...기존 내용... */}
-                  </g>
                   {/* 격자 배경 */}
                   <defs>
                     <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
