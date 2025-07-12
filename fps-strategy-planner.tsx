@@ -757,7 +757,7 @@ const MAPS: Record<MapType, {
   cache: {
     name: "Oregon",
     background: { light: "#8b7355", dark: "#57534e" },
-    floors: ["ground", "upper", "lower", "three", "rooftop"],
+    floors: ["ground", "upper", "three", "lower", "rooftop"],
     images: {
       ground: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302888/r6-maps-oregon-blueprint-2_c5kdwy.jpg",
       upper: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752302888/r6-maps-oregon-blueprint-3_pbwog1.jpg",
