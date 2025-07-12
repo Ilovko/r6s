@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'R6S static help',
+  title: 'R6S Strategy Maps',
   description: 'for every r6s player',
   generator: 'v0.dev',
 }
