@@ -132,11 +132,11 @@ interface SavedStrategy {
 }
 
 type PlayerType =
-  | "Ash" | "Iana" | "Zofia" | "Sledge" | "Nøkk" // entry
+  | "Ash" | "Iana" | "Zofia" | "Sledge" | "Nøkk" | "Amaru" | "Blitz" | "Ram" | "Ying" | "Buck" // entry
   | "Thermite" | "Hibana" | "Ace" | "Maverick" // hardBreacher
-  | "Thatcher" | "Zero" | "Lion" | "Dokkaebi" | "Gridlock" // support
-  | "Smoke" | "Echo" | "Maestro" | "Warden" | "Goyo" // anchor
-  | "Jäger" | "Valkyrie" | "Caveira" | "Vigil" | "Alibi" // roamer
+  | "Thatcher" | "Zero" | "Lion" | "Dokkaebi" | "Gridlock" | "Nomad" | "Osa" | "Striker" | "Deimos" | "Brava" | "Sens" | "IQ" | "Capitão" | "Kali" | "Glaz" | "Fuze" | "Montagne" | "Raura" | "Jackal" | "Blackbeard" | "Twitch" | "Flores" | "Grim" | "Finka" // support
+  | "Smoke" | "Echo" | "Maestro" | "Warden" | "Goyo" | "Clash" | "Cattle" | "Doc" | "Rook" | "Jäger" | "Valkyrie" | "Kaid" | "Kapkan" | "Melusi" | "Mira" | "Aruni" | "Azami" | "Solis" | "Tubarão" | "Fenrir" | "Thorn" | "Tachanka" | "Alibi" | "Frost" | "Thunderbird" | "Wamai" | "Skopós" | "Sentry" | "Mute" | "Bandit" // anchor
+  | "Caveira" | "Vigil" | "Mozzie" | "Pulse" | "Oryx" | "Lesion" | "Ela" // roamer
 type MarkerType = "danger" | "watch" | "objective"
 type Tool = "player" | "blueArrow" | "redArrow" | "move" | "erase" | "pan" | "wall" | "danger" | "watch" | "objective"
 type MapType = "dust2" | "mirage" | "inferno" | "cache" | "overpass"
@@ -442,15 +442,31 @@ const TRANSLATIONS: Translations = {
 
 const OPERATOR_ROLES = {
   attack: {
-    entry: ["Ash", "Iana", "Zofia", "Sledge", "Nøkk"],
-    hardBreacher: ["Thermite", "Hibana", "Ace", "Maverick"],
-    support: ["Thatcher", "Zero", "Lion", "Dokkaebi", "Gridlock"],
+    entry: [
+      "Ash", "Iana", "Zofia", "Sledge", "Nøkk", "Amaru", "Blitz", "Ram", "Ying", "Buck"
+    ],
+    hardBreacher: [
+      "Thermite", "Hibana", "Ace", "Maverick"
+    ],
+    support: [
+      "Thatcher", "Zero", "Lion", "Dokkaebi", "Gridlock", "Nomad",
+      "Osa", "Striker", "Deimos", "Brava", "Sens", "IQ",
+      "Capitão", "Kali", "Glaz", "Fuze", "Montagne", "Raura",
+      "Jackal", "Blackbeard", "Twitch", "Flores", "Grim", "Finka"
+    ],
   },
   defense: {
-    anchor: ["Smoke", "Echo", "Maestro", "Warden", "Goyo"],
-    roamer: ["Jäger", "Valkyrie", "Caveira", "Vigil", "Alibi"],
+    anchor: [
+      "Smoke", "Echo", "Maestro", "Warden", "Goyo", "Clash", "Cattle",
+      "Doc", "Rook", "Jäger", "Valkyrie", "Kaid", "Kapkan", "Melusi",
+      "Mira", "Aruni", "Azami", "Solis", "Tubarão", "Fenrir",
+      "Thorn", "Tachanka", "Alibi", "Frost", "Pulse", "Mozzie", "Wamai", "Thunderbird", "Sentry", "Mute", "Bandit"
+    ],
+    roamer: [
+      "Caveira", "Vigil", "Mozzie", "Pulse", "Jäger", "Valkyrie", "Alibi", "Skopós", "Oryx", "Lesion", "Ela"
+    ],
   },
-} as const
+} as const;
 
 // 역할별 기본 설정 추가
 const ROLE_DEFAULTS = {
@@ -492,31 +508,91 @@ const OperatorIcon: React.FC<{ url: string; className?: string }> = ({ url, clas
 
 // 오퍼레이터별 이미지 URL 매핑
 const OPERATOR_IMAGE_URLS: Record<PlayerType, string> = {
+  // Attack - Entry
   Ash: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208302/ash_q5cfwn.png",
   Iana: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208308/iana_pnfmdz.png",
   Zofia: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208318/zofia_ih1qee.png",
   Sledge: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208312/sledge_qrchx0.png",
   Nøkk: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208309/nokk_y1moem.png",
+  Amaru: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208302/amaru_l0jrhe.png",
+  Blitz: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208302/blitz_tfmvxh.png",
+  Ram: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208312/ram_zkn6st.png",
+  Ying: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208317/ying_hq5ems.png",
+  Buck: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208302/buck_jakksb.png",
+
+  // Attack - Hard Breacher
   Thermite: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208316/thermite_wjcbkl.png",
   Hibana: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208308/hibana_imhria.png",
   Ace: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208302/ace_xse46c.png",
   Maverick: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208308/maverick_yt9ckk.png",
+
+  // Attack - Support
   Thatcher: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208316/thatcher_kkzylx.png",
   Zero: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208317/zero_guumn2.png",
   Lion: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208309/lion_mrzhrd.png",
   Dokkaebi: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208303/dokkaebi_fmk5fg.png",
   Gridlock: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208304/gridlock_swl7cq.png",
-  Smoke: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Smoke_icon.png",
-  Echo: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Echo_icon.png",
-  Maestro: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Maestro_icon.png",
-  Warden: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Warden_icon.png",
-  Goyo: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Goyo_icon.png",
-  Jäger: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Jager_icon.png",
-  Valkyrie: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Valkyrie_icon.png",
-  Caveira: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Caveira_icon.png",
-  Vigil: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Vigil_icon.png",
-  Alibi: "https://static.wikia.nocookie.net/rainbowsix/images/2/2c/Alibi_icon.png",
-}
+  Nomad: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208311/nomad_cj5glz.png",
+  Osa: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208311/osa_fgdp4s.png",
+  Striker: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208313/striker_mego3r.png",
+  Deimos: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208303/deimos_dj8oav.png",
+  Brava: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208303/brava_k8jima.png",
+  Sens: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208312/sens_iustpk.png",
+  IQ: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208308/iq_x4xnf1.png",
+  Capitão: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208303/capitao_epaahq.png",
+  Kali: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208308/kali_zqlzba.png",
+  Glaz: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208304/glaz_b9ta22.png",
+  Fuze: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208304/fuze_ft7akb.png",
+  Montagne: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208309/montagne_wriw5h.png",
+  Raura: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208312/rauora_tlchli.png",
+  Jackal: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208308/jackal_smab62.png",
+  Blackbeard: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208303/blackbeard_ufxqjp.png",
+  Twitch: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208316/twitch_mepfse.png",
+  Flores: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208304/flores_p5kkj9.png",
+  Grim: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208304/grim_wlngx7.png",
+  Finka: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752208303/finka_tszeon.png",
+
+  // Defense - Anchor
+  Smoke: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300047/smoke_g46ate.png",
+  Echo: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299857/echo_wpdoyl.png",
+  Maestro: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299932/maestro_zfrcji.png",
+  Warden: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300080/warden_wmobw9.png",
+  Goyo: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299920/goyo_ab3jox.png",
+  Clash: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299768/clash_ityc0p.png",
+  Cattle: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299761/castle_rni2n1.png",
+  Doc: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299846/doc_gklxuf.png",
+  Rook: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300038/rook_pyqifd.png",
+  Jäger: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299921/jager_updenj.png",
+  Valkyrie: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300068/valkyrie_i0t1rq.png",
+  Kaid: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299924/kaid_y2s4yg.png",
+  Kapkan: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299925/kapkan_t7k6pm.png",
+  Melusi: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299971/melusi_clurx4.png",
+  Mira: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299972/mira_x6mujq.png",
+  Aruni: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299758/aruni_hso1hg.png",
+  Azami: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299759/azami_uqq7zk.png",
+  Solis: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300048/solis_lm2acp.png",
+  Tubarão: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300068/tubarao_clnhjl.png",
+  Fenrir: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299915/fenrir_go5pw0.png",
+  Thorn: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300055/thorn_ds1uuo.png",
+  Tachanka: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300054/tachanka_ta6rmj.png",
+  Alibi: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299757/alibi_c4rncp.png",
+  Frost: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299917/frost_ez0fji.png",
+  Wamai: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300073/wamai_hofph4.png",
+  Thunderbird: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300063/thunderbird_utgpwl.png",
+  Sentry: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300042/sentry_vd9dab.png",
+  Mute: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300011/mute_ld2bxq.png",
+  Bandit: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299759/azami_uqq7zk.png",
+
+  // Defense - Roamer
+  Caveira: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299767/caveira_cvgudf.png",
+  Vigil: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300072/vigil_oxwxph.png",
+  Mozzie: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300010/mozzie_llsq27.png",
+  Pulse: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300037/pulse_kz1lrb.png",
+  Skopós: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300046/skopos_vckyth.png",
+  Oryx: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752300034/oryx_gagq9v.png",
+  Lesion: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299931/lesion_bq890k.png",
+  Ela: "https://res.cloudinary.com/dpr8t4ijf/image/upload/v1752299901/ela_hhbruv.png",
+};
 
 
 // 오퍼레이터 정보
@@ -527,18 +603,45 @@ const PLAYER_TYPES: Record<PlayerType, PlayerTypeInfo> = Object.fromEntries(
       name: { ko: key, en: key, ja: key },
       icon: (props: { className?: string }) => <OperatorIcon url={url} className={props.className} />,
       color:
-        key === "Ash" || key === "Iana" || key === "Zofia" || key === "Sledge" || key === "Nøkk"
+        // Entry
+        [
+          "Ash", "Iana", "Zofia", "Sledge", "Nøkk",
+          "Amaru", "Blitz", "Ram", "Ying"
+        ].includes(key)
           ? "#f59e0b"
-          : key === "Thermite" || key === "Hibana" || key === "Ace" || key === "Maverick"
+          // Hard Breacher
+          : [
+              "Thermite", "Hibana", "Ace", "Maverick"
+            ].includes(key)
           ? "#10b981"
-          : key === "Thatcher" || key === "Zero" || key === "Lion" || key === "Dokkaebi" || key === "Gridlock"
+          // Support (Attacker)
+          : [
+              "Thatcher", "Zero", "Lion", "Dokkaebi", "Gridlock",
+              "Nomad", "Osa", "Striker", "Deimos", "Brava", "Sens",
+              "IQ", "Capitão", "Kali", "Glaz", "Fuze", "Montagne",
+              "Raura", "Jackal", "Blackbeard"
+            ].includes(key)
           ? "#8b5cf6"
-          : key === "Smoke" || key === "Echo" || key === "Maestro" || key === "Warden" || key === "Goyo"
+          // Anchor (Defender)
+          : [
+              "Smoke", "Echo", "Maestro", "Warden", "Goyo",
+              "Clash", "Cattle", "Doc", "Rook", "Kaid", "Kapkan",
+              "Melusi", "Mira", "Aruni", "Azami", "Solis",
+              "Tubarão", "Fenrir", "Thorn", "Tachanka",
+              "Alibi", "Frost"
+            ].includes(key)
           ? "#ec4899"
-          : "#ef4444",
+          // Roamer (Defender)
+          : [
+              "Caveira", "Vigil", "Mozzie", "Pulse",
+              "Jäger", "Valkyrie"
+            ].includes(key)
+          ? "#ef4444"
+          // fallback (shouldn't happen)
+          : "#6b7280",
     },
   ])
-) as Record<PlayerType, PlayerTypeInfo>
+) as Record<PlayerType, PlayerTypeInfo>;
 
 const MARKER_TYPES: Record<MarkerType, MarkerTypeInfo> = {
   danger: {
@@ -1329,11 +1432,28 @@ export default function Component() {
     (event: React.WheelEvent<SVGSVGElement>) => {
       event.preventDefault()
       event.stopPropagation()
+      const rect = svgRef.current?.getBoundingClientRect()
+      if (!rect) return
+
+      // 마우스 위치 계산
+      const mouseX = event.clientX - rect.left
+      const mouseY = event.clientY - rect.top
+
+      // 확대/축소 비율 계산
       const delta = event.deltaY > 0 ? 0.9 : 1.1
       const newZoom = Math.max(0.1, Math.min(5, zoom * delta))
+
+      // 커서 기준 pan 보정
+      const scale = newZoom / zoom
+      const newPan = {
+        x: mouseX - (mouseX - pan.x) * scale,
+        y: mouseY - (mouseY - pan.y) * scale,
+      }
+
       setZoom(newZoom)
+      setPan(newPan)
     },
-    [zoom],
+    [zoom, pan],
   )
 
   const handlePlayerMouseDown = useCallback(
@@ -1515,29 +1635,29 @@ export default function Component() {
     return (
       <g key={player.id} opacity={opacity}>
         <rect
-          x={player.position.x - 12}
-          y={player.position.y - 12}
-          width="24"
-          height="24"
-          fill={player.team === "attack" ? "#f97316" : "#3b82f6"}
-          stroke="white"
-          strokeWidth="2"
-          className={`${layers.players.locked ? "cursor-not-allowed" : "cursor-pointer hover:opacity-80"}`}
-          onMouseDown={(e) => handlePlayerMouseDown(e, player.id)}
-        />
-        <rect
           x={player.position.x - 8}
           y={player.position.y - 8}
           width="16"
           height="16"
+          fill={player.team === "attack" ? "#f97316" : "#3b82f6"}
+          stroke="white"
+          strokeWidth="1"
+          className={`${layers.players.locked ? "cursor-not-allowed" : "cursor-pointer hover:opacity-80"}`}
+          onMouseDown={(e) => handlePlayerMouseDown(e, player.id)}
+        />
+        <rect
+          x={player.position.x - 6}
+          y={player.position.y - 6}
+          width="12"
+          height="12"
           fill={typeInfo.color}
           className="pointer-events-none"
         />
         <foreignObject
-          x={player.position.x - 40}
-          y={player.position.y - 40}
-          width="80"
-          height="80"
+          x={player.position.x - 45}
+          y={player.position.y - 45}
+          width="90"
+          height="90"
           className="pointer-events-none"
         >
           <div className="w-full h-full flex items-center justify-center">
@@ -2168,14 +2288,14 @@ export default function Component() {
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="max-h-60 overflow-y-auto">
+              <SelectContent className="overflow-y-auto">
                 {ops.map(op => {
                   const IconComponent = PLAYER_TYPES[op].icon
                   return (
                     <SelectItem key={op} value={op}>
                       <div className="flex items-center gap-1">
                         {/* 역할 선택창 아이콘을 더 작게 */}
-                        <IconComponent className="h-2 w-2" style={{ color: PLAYER_TYPES[op].color }} />
+                        <IconComponent className="h-1 w-1" style={{ color: PLAYER_TYPES[op].color }} />
                         {PLAYER_TYPES[op].name[language]}
                       </div>
                     </SelectItem>
